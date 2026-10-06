@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sorry</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+            background: linear-gradient(to bottom, #8ed8ff 0%, #c9efff 56%, #91d66c 56%, #6fbd50 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ===== CLOUDS ===== */
+        .cloud {
+            position: absolute;
+            width: 150px;
+            height: 45px;
+            background: white;
+            border-radius: 50px;
+            opacity: .85;
+            animation: cloudMove 30s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: "";
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 65px;
+            height: 65px;
+            left: 25px;
+            bottom: 10px;
+        }
+
+        .cloud::after {
+            width: 80px;
+            height: 80px;
+            right: 20px;
+            bottom: 5px;
+        }
+
+        .cloud1 {
+            top: 10%;
+            left: -200px;
+        }
+
+        .cloud2 {
+            top: 25%;
+            left: -250px;
+            animation-delay: 8s;
+            animation-duration: 40s;
+        }
+
+        @keyframes cloudMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 450px)); }
+        }
+
+        /* ===== DOODLES ===== */
+        .doodle {
+            position: absolute;
+            font-size: 35px;
+            pointer-events: none;
+            animation: wiggle 2s ease-in-out infinite;
+        }
+
+        .doodle1 { left: 6%; top: 12%; }
+        .doodle2 { right: 6%; top: 18%; }
+        .doodle3 { left: 7%; bottom: 12%; }
+        .doodle4 { right: 7%; bottom: 14%; }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-8deg) scale(1); }
+            50% { transform: rotate(8deg) scale(1.15); }
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            width: min(600px, 92vw);
+            max-height: 94vh;
+            overflow-y: auto;
+            background: #fffef1;
+            border: 5px solid #222;
+            border-radius: 28px;
+            padding: 25px 25px 30px;
+            text-align: center;
+            box-shadow: 10px 10px 0 #222;
+            position: relative;
+            z-index: 10;
+            animation: cardAppear .8s ease;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: scale(.7) rotate(-4deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        /* ===== HEADING ===== */
+        h1 {
+            font-size: clamp(48px, 10vw, 72px);
+            color: #ef4036;
+            text-shadow: 4px 4px 0 #222;
+            margin-bottom: 5px;
+            transform: rotate(-2deg);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        /* ===== FIRST PAGE SHINCHAN PHOTO ===== */
+        .character-box {
+            height: 205px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px auto 10px;
+        }
+
+        .first-shinchan {
+            width: 210px;
+            height: 200px;
+            object-fit: contain;
+            filter: drop-shadow(5px 5px 0 #222);
+            animation: littleBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes littleBounce {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        /* ===== APOLOGY MESSAGE ===== */
+        .message {
+            background: #fff1a6;
+            border: 3px dashed #222;
+            border-radius: 16px;
+            padding: 17px;
+            font-size: 17px;
+            line-height: 1.6;
+            text-align: left;
+            transform: rotate(.5deg);
+        }
+
+        .message strong {
+            color: #df3535;
+        }
+
+        /* ===== QUESTION ===== */
+        .question {
+            margin-top: 20px;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        /* ===== BUTTON AREA ===== */
+        .buttons {
+            width: 100%;
+            height: 125px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        button {
+            border: 4px solid #222;
+            border-radius: 15px;
+            padding: 12px 25px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 #222;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #yesBtn {
+            background: #69df72;
+            color: #143d18;
+            position: absolute;
+            left: 25%;
+            top: 15px;
+            z-index: 5;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1) rotate(-2deg);
+        }
+
+        /* THE RUNAWAY NO BUTTON (now faster) */
+        #noBtn {
+            background: #ff7777;
+            color: #4d1111;
+            position: absolute;
+            left: 55%;
+            top: 15px;
+            z-index: 20;
+            white-space: nowrap;
+            transition:
+                left .08s ease,
+                top .08s ease,
+                transform .1s ease;
+        }
+
+        .signature {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* ===== SECOND PAGE ===== */
+        #finalScreen {
+            display: none;
+        }
+
+        .final-title {
+            font-size: clamp(42px, 9vw, 65px);
+            color: #ef4036;
+            text-shadow: 3px 3px 0 #222;
+            margin-bottom: 5px;
+        }
+
+        .second-shinchan {
+            width: 210px;
+            height: 190px;
+            object-fit: contain;
+            filter: drop-shadow(5px 5px 0 #222);
+            animation: littleBounce 2s ease-in-out infinite;
+        }
+
+        .final-message {
+            background: #bcecff;
+            border: 3px dashed #222;
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 19px;
+            line-height: 1.6;
+        }
+
+        .final-message strong {
+            color: #e43b3b;
+        }
+
+        .hearts {
+            font-size: 45px;
+            margin: 5px 0 10px;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 600px) {
+            body {
+                align-items: center;
+                padding: 10px;
+            }
+
+            .card {
+                width: 94vw;
+                max-height: 92vh;
+                padding: 18px 14px 22px;
+                border-width: 4px;
+                box-shadow: 7px 7px 0 #222;
+            }
+
+            h1 { font-size: 52px; }
+            .subtitle { font-size: 16px; }
+            .character-box { height: 170px; }
+
+            .first-shinchan {
+                width: 175px;
+                height: 170px;
+            }
+
+            .message {
+                font-size: 15px;
+                line-height: 1.55;
+                padding: 14px;
+            }
+
+            .question { font-size: 20px; }
+            .buttons { height: 125px; }
+
+            button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            #yesBtn {
+                left: 18%;
+                top: 18px;
+            }
+
+            #noBtn {
+                left: 55%;
+                top: 18px;
+            }
+
+            .second-shinchan {
+                width: 175px;
+                height: 165px;
+            }
+
+            .final-message {
+                font-size: 17px;
+                padding: 15px;
+            }
+
+            .doodle { font-size: 25px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CLOUDS -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <!-- DOODLES -->
+    <div class="doodle doodle1">☀️</div>
+    <div class="doodle doodle2">⭐</div>
+    <div class="doodle doodle3">🌼</div>
+    <div class="doodle doodle4">🌸</div>
+
+    <!-- MAIN CARD -->
+    <div class="card">
+
+        <!-- FIRST PAGE -->
+        <section id="apologyScreen">
+
+            <h1>Sorry</h1>
+
+            <div class="subtitle">Disha, I want to say something...</div>
+
+            <div class="character-box">
+                <img
+                    class="first-shinchan"
+                    src="https://i.pinimg.com/474x/6a/c4/14/6ac41475849de0991b0b8fdc5bf3694c.jpg"
+                    alt="Shinchan"
+                >
+            </div>
+
+            <!-- APOLOGY -->
+            <div class="message">
+
+                <p>
+                    Disha... 🥺
+                    <br><br>
+                    I know I messed up,
+                    and I'm really sorry.
+                </p>
+
+                <br>
+
+                <p>
+                    I always overthink things,
+                    and because of that,
+                    I sometimes end up messing
+                    things up even when I
+                    don't mean to.
+                </p>
+
+                <br>
+
+                <p>
+                    And I hope you know that
+                    you can always tell me
+                    how you feel
+                    <strong>without any hesitation.</strong>
+                </p>
+
+                <br>
+
+                <p>
+                    If something is bothering you,
+                    please tell me.
+                    <br>
+                    I'll listen.
+                </p>
+
+                <br>
+
+                <p>
+                    And no matter what time it is,
+                    you can always message me
+                    or call me.
+                    <br>
+                    Even if I'm busy,
+                    I'll always be there for you.
+                </p>
+
+                <br>
+
+                <p>
+                    I love talking to you,
+                    and that's why I'm always
+                    <strong>annoying</strong> you.
+                    Sorry for that! 🥺
+                </p>
+
+                <br>
+
+                <p>I'm really sorry, Disha.</p>
+
+            </div>
+
+            <div class="question">Will you forgive me? 🥹</div>
+
+            <!-- BUTTONS -->
+            <div class="buttons" id="buttonArea">
+                <button id="yesBtn">YES ❤️</button>
+                <button id="noBtn">NO 😏</button>
+            </div>
+
+            <div class="signature">— Nishant</div>
+
+        </section>
+
+        <!-- SECOND PAGE -->
+        <section id="finalScreen">
+
+            <div class="hearts">❤️ 💖 💕</div>
+
+            <h2 class="final-title">Thank You! 🥹</h2>
+
+            <div class="character-box">
+                <img
+                    class="second-shinchan"
+                    src="https://media.giphy.com/media/icIr8rk03xQI6NS67S/giphy.gif"
+                    alt="Happy Shinchan"
+                >
+            </div>
+
+            <div class="final-message">
+                Disha ❤️
+                <br><br>
+                Thank you for forgiving me. 🥺
+                <br><br>
+                I'll try my best to stop
+                overthinking and messing
+                things up.
+                <br><br>
+                And remember...
+                <br><br>
+                <strong>You can always talk to me.</strong>
+                <br>
+                Anytime.
+                <br><br>
+                I'll be there.
+                <br><br>
+                — Nishant ❤️
+            </div>
+
+            <div style="font-size: 42px; margin-top: 18px;">
+                🥰 💕 🫶 🌸
+            </div>
+
+        </section>
+
+    </div>
+
+    <script>
+
+        /* ====================================
+           BUTTONS
+        ==================================== */
+
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const buttonArea = document.getElementById("buttonArea");
+
+        /* Messages the NO button shows each time it runs away */
+        const noTexts = [
+            "Nope 😜",
+            "Too slow 🐢",
+            "Catch me if you can 🏃",
+            "Nuh uh! 🙅",
+            "Missed me 😎",
+            "Not today 😏",
+            "Try again 🤭",
+            "Almost! 😂"
+        ];
+
+        let noIndex = 0;
+
+        /* Make the NO button run away (mouse, touch, phone, tablet) */
+        function moveNoButton() {
+
+            /* Change text first, so the size is measured correctly */
+            noBtn.innerText = noTexts[noIndex];
+            noIndex = (noIndex + 1) % noTexts.length;
+
+            const areaWidth = buttonArea.clientWidth;
+            const areaHeight = buttonArea.clientHeight;
+
+            const buttonWidth = noBtn.offsetWidth;
+            const buttonHeight = noBtn.offsetHeight;
+
+            const padding = 5;
+
+            const maxX = Math.max(padding, areaWidth - buttonWidth - padding);
+            const maxY = Math.max(padding, areaHeight - buttonHeight - padding);
+
+            let randomX = padding + Math.random() * (maxX - padding);
+            let randomY = padding + Math.random() * (maxY - padding);
+
+            /* Keep it away from the YES button when possible */
+            if (Math.abs(randomX - yesBtn.offsetLeft) < 100) {
+                randomX = Math.min(maxX, randomX + 120);
+            }
+
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+
+            noBtn.style.transform =
+                "rotate(" + (Math.random() * 20 - 10) + "deg)";
+        }
+
+        /* DESKTOP: when mouse gets close, NO runs away */
+        noBtn.addEventListener("mouseenter", moveNoButton);
+
+        /* PHONE: when finger touches NO, it runs away */
+        noBtn.addEventListener(
+            "touchstart",
+            function (event) {
+                event.preventDefault();
+                moveNoButton();
+            },
+            { passive: false }
+        );
+
+        /* Backup for clicks */
+        noBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            moveNoButton();
+        });
+
+        /* ====================================
+           YES BUTTON
+        ==================================== */
+
+        yesBtn.addEventListener("click", function () {
+
+            document.getElementById("apologyScreen").style.display = "none";
+            document.getElementById("finalScreen").style.display = "block";
+
+            /* Change background for the happy ending */
+            document.body.style.background =
+                "linear-gradient(" +
+                "to bottom," +
+                "#ffd9e5 0%," +
+                "#fff1f6 56%," +
+                "#9bd878 56%," +
+                "#72bd55 100%" +
+                ")";
+
+            createCelebration();
+        });
+
+        /* ====================================
+           HEART CELEBRATION
+        ==================================== */
+
+        function createCelebration() {
+
+            const emojis = ["❤️", "💖", "💕", "💗", "✨", "🌸", "⭐", "🥰"];
+
+            for (let i = 0; i < 35; i++) {
+
+                const heart = document.createElement("div");
+
+                heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+                heart.style.position = "fixed";
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.bottom = "-40px";
+                heart.style.fontSize = 20 + Math.random() * 25 + "px";
+                heart.style.zIndex = "100";
+                heart.style.pointerEvents = "none";
+                heart.style.animation =
+                    "heartFloat " + (3 + Math.random() * 3) + "s linear forwards";
+
+                document.body.appendChild(heart);
+
+                setTimeout(function () {
+                    heart.remove();
+                }, 6500);
+            }
+        }
+
+        /* Celebration animation */
+        const style = document.createElement("style");
+
+        style.innerHTML = `
+            @keyframes heartFloat {
+                from {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(-110vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
+
+    </script>
+
+</body>
+</html>
